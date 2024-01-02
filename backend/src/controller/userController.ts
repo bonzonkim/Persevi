@@ -1,51 +1,24 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
-import { AppDataSource } from '../config/db';
-import {User} from "../entity/User";
+import {UserInterface} from "../model/userModel";
+import { registerService, loginService } from '../service/userService'
 
-const repository = AppDataSource.getRepository(User);
-
-interface UserRegister {
-  name: string;
-  email: string;
-  uid: string;
-  pwd: string;
-  nickname: string;
-  phone: string;
-  address: string;
-  birth: Date;
-  banknum: string;
-  bank: string;
-}
-
-export async function register( req: Request<{}, {}, UserRegister>, res: Response) {
+export async function register(req: Request<{}, {}, UserInterface>, res: Response) {
   try {
-    let { name,
-      email,
-      uid,
-      pwd,
-      nickname,
-      phone,
-      address,
-      birth,
-      banknum,
-      bank
-    } = req.body;
-
-    const grade = 0; // 회원 등급 (일반회원, 관리자)
-
-    // 비밀번호 암호화
-    const salt = await bcrypt.genSalt(10);
-    pwd = await bcrypt.hash(pwd, salt);
-
-    const user = repository.create({name, email, uid, pwd, nickname, phone, address, birth, banknum, bank, grade});
-    user.birth = new Date();
-    const userData = await repository.save(user)
+    const userData = await registerService(req.body);
     console.log(userData);
-    res.json({msg: `${uid}님 회원가입이 완료되었습니다.`})
-  }
-  catch (e) {
+    res.json({ msg: `${userData.uid}님 회원가입이 완료되었습니다.` });
+  } catch (e) {
     console.log(e);
-    res.status(500).json({ error: 'Internal Server Error' })
+    res.status(500).json({error: 'Internal Server Error'});
+  }
+}
+ export async function login(req: Request<{}, {}, UserInterface>, res: Response) {
+  try {
+    const userData = await loginService((req.body));
+    console.log(userData);
+    res.json({msg: `${userData.uid}님 환영합니다.`})
+  } catch (e){
+      console.log(e);
+      res.status(401).json({error: '로그인실패'})
   }
 }
