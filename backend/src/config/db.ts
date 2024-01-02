@@ -14,11 +14,11 @@ const {
 
 export const AppDataSource = new DataSource({
     type: "mysql",
-    host: DB_HOST,
+    host: DB_HOST ,
     port: 3306,
-    username: DB_USER,
-    password: DB_PASSWORD,
-    database: DB_DATABASE,
+    username: DB_USER ,
+    password: DB_PASSWORD ,
+    database: DB_DATABASE ,
     synchronize: true,
     logging: false,
     entities: [User],
