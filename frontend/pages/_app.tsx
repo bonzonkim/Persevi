@@ -1,4 +1,6 @@
 import '../styles/globals.css';
+import '../components/navbar';
+import Navbar from "@/components/navbar";
 
 
 /*
@@ -6,7 +8,11 @@ import '../styles/globals.css';
   /styles/globals.css 가 글로벌 css파일
  */
 const App = ({ Component, pageProps }: any) => {
-  return( <Component {...pageProps}/>
+  return(
+      <div>
+        <Navbar/>
+          <Component {...pageProps}/>
+      </div>
   )
 };
 
