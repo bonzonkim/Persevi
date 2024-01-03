@@ -17,8 +17,13 @@ export async function register(req: Request<{}, {}, UserInterface>, res: Respons
     const userData = await loginService((req.body));
     console.log(userData);
     res.json({msg: `${userData.uid}님 환영합니다.`})
-  } catch (e){
+  } catch (e: any){
+      if (e.message === '비밀번호가 일치하지 않습니다.') {
+         res.json({msg: '비밀번호가 일치하지 않습니다.'})
+      } else if (e.message === '사용자를 찾을 수 없습니다.') {
+         res.json({msg: '사용자를 찾을 수 없습니다.'})
+      }
       console.log(e);
-      res.status(401).json({error: '로그인실패'})
+      res.json({msg: '로그인실패'})
   }
 }
