@@ -1,6 +1,6 @@
 import '../styles/globals.css';
-import '../components/navbar';
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/layout/navbar";
+import Footer from "@/components/layout/footer";
 
 
 /*
@@ -10,8 +10,9 @@ import Navbar from "@/components/navbar";
 const App = ({ Component, pageProps }: any) => {
   return(
       <div>
-        <Navbar/>
+          <Navbar/>
           <Component {...pageProps}/>
+          <Footer />
       </div>
   )
 };

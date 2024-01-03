@@ -1,17 +1,9 @@
-import React, {useState} from 'react';
-import axios from 'axios';
-import Example from '../components/example'
+import React from 'react';
 
 export default function Home() {
-  const [msg, setMsg] = useState('');
-  axios.get('http://localhost:3099/hello')
-  .then((res) => {
-      setMsg(res.data.msg)
-    })
   return (
-      <>
-          <p>{msg}</p>
-          <Example/>
-      </>
+      <div className='flex flex-col'>
+          <h1 className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white pt-20'>Persevi</h1>
+      </div>
   )
 }
