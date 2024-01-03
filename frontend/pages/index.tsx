@@ -2,8 +2,11 @@ import React from 'react';
 
 export default function Home() {
   return (
-      <div className='flex flex-col'>
-          <h1 className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white pt-20'>Persevi</h1>
+      <div className='flex flex-col pt-72 items-center'>
+          <main className='whitespace-nowrap dark:text-white justify-center'>
+              <h1 className='text-9xl font-semibold whitespace-nowrap dark:text-white'>Persevi</h1>
+              <span className='ml-6'>Unleashing Fashion with a Touch of Perseverance.</span>
+          </main>
       </div>
   )
 }

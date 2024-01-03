@@ -14,6 +14,7 @@ const Register = () => {
         address: '',
         birth: Date,
     });
+
     function onSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         axios.post('http://localhost:3099/api/user/register', formData)
@@ -28,6 +29,11 @@ const Register = () => {
 
     function onChange(e: ChangeEvent<HTMLInputElement>) {
        setFormData({...formData, [e.target.id]: e.target.value})
+        console.log(formData.pwd)
+    }
+    function validatePassword(pwd: string): boolean {
+        const passwordRegEx = /^[A-Za-z0-9]{8,20}$/
+        return passwordRegEx.test(pwd);
     }
 
     useEffect(() => {
@@ -36,6 +42,7 @@ const Register = () => {
         }
     }, [msg])
 
+    const isPasswordValid = validatePassword(formData.pwd);
 
     return (
         <div className='flex flex-col items-center justify-center min-h-screen '>
@@ -65,8 +72,11 @@ const Register = () => {
                     onChange={onChange}
                 />
                 <label htmlFor='pwd'>Password</label>
+                <span
+                    className={`password-feedback text-persevi-blue ${isPasswordValid ? 'valid' : 'invalid'}`}
+                >{isPasswordValid ? '올바른 비밀번호 형식입니다' : '비밀번호 형식이 올바르지 않습니다'}</span>
                 <input
-                    className='p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-black'
+                    className={`p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-black ${isPasswordValid ? 'valid' : 'invalid'}`}
                     id='pwd'
                     type='text'
                     placeholder='비밀번호'

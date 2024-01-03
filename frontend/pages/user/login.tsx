@@ -12,7 +12,9 @@ const Login = () => {
         e.preventDefault();
         axios.post('http://localhost:3099/api/user/login', formData)
             .then((res) => {
+            if (res.data.msg !== ''){
                 setMsg(res.data.msg);
+            }
             })
             .catch((e) => {
                 console.log(e);
@@ -30,7 +32,7 @@ const Login = () => {
     useEffect(() => {
         if (msg !== '') {
             alert(msg);
-        }
+        } 
     }, [msg]);
 
 
