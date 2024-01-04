@@ -1,128 +1,185 @@
-import React, {useState, useEffect, ChangeEvent, FormEventHandler, FormEvent} from 'react';
-import axios from "axios";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import axios from 'axios';
+import './register-styles.module.css';
 
+function Register() {
+	const [msg, setMsg] = useState('');
+	const [formData, setFormData] = useState({
+		name: '',
+		email: '',
+		uid: '',
+		pwd: '',
+		nickname: '',
+		phone: '',
+		address: '',
+		birth: Date
+	});
 
-const Register = () => {
-    const [msg, setMsg] = useState('')
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        uid: '',
-        pwd: '',
-        nickname: '',
-        phone: '',
-        address: '',
-        birth: Date,
-    });
+	// 이메일, 비밀번호, 전화번호 유호화 검사
+	function validateEmail(email: string): boolean {
+		const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		return emailRegEx.test(email);
+	}
 
-    function onSubmit(e: FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        axios.post('http://localhost:3099/api/user/register', formData)
-            .then((res) => {
-                console.log(res)
-                setMsg(res.data.msg);
-            })
-            .catch((e) => {
-                console.log(e)
-            })
-    }
+	function validatePassword(pwd: string): boolean {
+		const passwordRegEx = /^[A-Za-z0-9]{8,20}$/;
+		return passwordRegEx.test(pwd);
+	}
 
-    function onChange(e: ChangeEvent<HTMLInputElement>) {
-       setFormData({...formData, [e.target.id]: e.target.value})
-        console.log(formData.pwd)
-    }
-    function validatePassword(pwd: string): boolean {
-        const passwordRegEx = /^[A-Za-z0-9]{8,20}$/
-        return passwordRegEx.test(pwd);
-    }
+	function validatePhone(phone: string): boolean {
+		const passwordRegEx = /^[0-9]{3}\-[0-9]{4}\-[0-9]{4}/;
+		return passwordRegEx.test(phone);
+	}
 
-    useEffect(() => {
-        if (msg !== '') {
-            alert(msg);
-        }
-    }, [msg])
+	function onSubmit(e: FormEvent<HTMLFormElement>) {
+		e.preventDefault();
+		if (validateEmail(formData.email) && validatePassword(formData.pwd) && validatePhone(formData.phone)) {
+			axios
+				.post('http://localhost:3099/api/user/register', formData)
+				.then(res => {
+					console.log(res);
+					setMsg(res.data.msg);
+					if (res.data.msg.includes('완료되었습니다')) {
+						location.href = '/';
+					}
+				})
+				.catch(e => {
+					console.log(e);
+				});
+		} else {
+			alert('이메일, 비밀번호, 또는 전화번호 형식이 올바르지 않습니다.');
+		}
+	}
 
-    const isPasswordValid = validatePassword(formData.pwd);
+	function onChange(e: ChangeEvent<HTMLInputElement>) {
+		setFormData({ ...formData, [e.target.id]: e.target.value });
+		// console.log(formData.pwd)
+	}
 
-    return (
-        <div className='flex flex-col items-center justify-center min-h-screen '>
-            <form onSubmit={onSubmit} className='flex flex-col items-center justify-center min-h-screen py-2'>
-                <label htmlFor='name'>Name</label>
-                <input
-                    className='p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-black'
-                    id='name'
-                    type='text'
-                    placeholder='이름'
-                    onChange={onChange}
-                />
-                <label htmlFor='email'>Email</label>
-                <input
-                    className='p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-black'
-                    id='email'
-                    type='text'
-                    placeholder='이메일'
-                    onChange={onChange}
-                />
-                <label htmlFor='uid'>ID</label>
-                <input
-                    className='p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-black'
-                    id='uid'
-                    type='text'
-                    placeholder='ID'
-                    onChange={onChange}
-                />
-                <label htmlFor='pwd'>Password</label>
-                <span
-                    className={`password-feedback text-persevi-blue ${isPasswordValid ? 'valid' : 'invalid'}`}
-                >{isPasswordValid ? '올바른 비밀번호 형식입니다' : '비밀번호 형식이 올바르지 않습니다'}</span>
-                <input
-                    className={`p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-black ${isPasswordValid ? 'valid' : 'invalid'}`}
-                    id='pwd'
-                    type='text'
-                    placeholder='비밀번호'
-                    onChange={onChange}
-                />
-                <label htmlFor='nickname'>Nickname</label>
-                <input
-                    className='p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-black'
-                    id='nickname'
-                    type='text'
-                    placeholder='닉네임'
-                    onChange={onChange}
-                />
-                <label htmlFor='phone'>Phone</label>
-                <input
-                    className='p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-black'
-                    id='phone'
-                    type='text'
-                    placeholder='전화번호'
-                    onChange={onChange}
-                />
-                <label htmlFor='address'>지역</label>
-                <input
-                    className='p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-black'
-                    id='address'
-                    type='text'
-                    placeholder='지역'
-                    onChange={onChange}
-                />
-                <label htmlFor='birth'>생년월일</label>
-                <input
-                    className='p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-black'
-                    id='birth'
-                    type='date'
-                    onChange={onChange}
-                />
+	useEffect(() => {
+		if (msg !== '') {
+			alert(msg);
+		}
+	}, [msg]);
 
-                <button
-                    className='p-2 border rounded-lg mb-4'
-                    type='submit'
-                >
-                    회원가입
-                </button>
-            </form>
-        </div>
-    );
+	const validation = {
+		isPasswordValid: validatePassword(formData.pwd),
+		isEmailValid: validateEmail(formData.email),
+		isPhoneValid: validatePhone(formData.phone)
+	};
+
+	return (
+		<div className="flex flex-col items-center justify-center min-h-screen ">
+			<form onSubmit={onSubmit} className="flex flex-col items-center justify-center min-h-screen py-2">
+				<label htmlFor="uid">ID</label>
+				<input
+					className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-persevi-grey text-white"
+					id="uid"
+					type="text"
+					placeholder="ID"
+					onChange={onChange}
+				/>
+				<label htmlFor="pwd">Password</label>
+				<span className={`${validation.isPasswordValid ? 'text-persevi-blue' : 'text-red-500'}`}>
+					{validation.isPasswordValid
+						? '올바른 비밀번호 형식입니다'
+						: formData.pwd === ''
+							? ''
+							: '비밀번호 형식이 올바르지 않습니다'}
+				</span>
+				<input
+					className={`p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-persevi-grey text-white ${
+						validation.isPasswordValid
+							? 'border-persevi-blue'
+							: formData.pwd === ''
+								? 'border-gray-300'
+								: 'border-red-500'
+					}`}
+					id="pwd"
+					type="password"
+					placeholder="비밀번호"
+					onChange={onChange}
+				/>
+				<label htmlFor="name text-white">Name</label>
+				<input
+					className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-persevi-grey text-white"
+					id="name"
+					type="text"
+					placeholder="이름"
+					onChange={onChange}
+				/>
+				<label htmlFor="email">Email</label>
+				<span className={`${validation.isEmailValid ? 'text-persevi-blue' : 'text-red-500'}`}>
+					{validation.isEmailValid
+						? '올바른 이메일 형식입니다'
+						: formData.email === ''
+							? ''
+							: '이메일 형식이 올바르지 않습니다'}
+				</span>
+				<input
+					className={`p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-persevi-grey text-white ${
+						validation.isEmailValid
+							? 'border-persevi-blue'
+							: formData.email === ''
+								? 'border-gray-300'
+								: 'border-red-500'
+					}`}
+					id="email"
+					type="text"
+					placeholder="이메일"
+					onChange={onChange}
+				/>
+				<label htmlFor="nickname">Nickname</label>
+				<input
+					className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-persevi-grey text-white"
+					id="nickname"
+					type="text"
+					placeholder="닉네임"
+					onChange={onChange}
+				/>
+				<label htmlFor="phone">Phone</label>
+				<span className={`${validation.isPhoneValid ? 'text-persevi-blue' : 'text-red-500'}`}>
+					{validation.isPhoneValid
+						? '올바른 전화번호 형식입니다'
+						: formData.phone === ''
+							? ''
+							: '전화번호 형식이 올바르지 않습니다.'}
+				</span>
+				<input
+					className={`p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-persevi-grey text-white ${
+						validation.isPhoneValid
+							? 'border-persevi-blue'
+							: formData.phone === ''
+								? 'border-gray-300'
+								: 'border-red-500'
+					}`}
+					id="phone"
+					type="text"
+					placeholder="전화번호"
+					onChange={onChange}
+				/>
+				<label htmlFor="address">지역</label>
+				<input
+					className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-persevi-grey text-white"
+					id="address"
+					type="text"
+					placeholder="지역"
+					onChange={onChange}
+				/>
+				<label htmlFor="birth">생년월일</label>
+				<input
+					className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-persevi-grey text-white"
+					id="birth"
+					type="date"
+					onChange={onChange}
+				/>
+
+				<button className="p-2 border rounded-lg mb-4 bg-persevi-blue" type="submit">
+					회원가입
+				</button>
+			</form>
+		</div>
+	);
 }
 
 export default Register;
