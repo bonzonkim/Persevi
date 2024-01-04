@@ -27,7 +27,7 @@ function Register() {
 	}
 
 	function validatePhone(phone: string): boolean {
-		const passwordRegEx = /^[0-9]{3}\-[0-9]{4}\-[0-9]{4}/;
+		const passwordRegEx = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
 		return passwordRegEx.test(phone);
 	}
 
@@ -78,6 +78,7 @@ function Register() {
 					type="text"
 					placeholder="ID"
 					onChange={onChange}
+					required
 				/>
 				<label htmlFor="pwd">Password</label>
 				<span className={`${validation.isPasswordValid ? 'text-persevi-blue' : 'text-red-500'}`}>
@@ -88,17 +89,13 @@ function Register() {
 							: '비밀번호 형식이 올바르지 않습니다'}
 				</span>
 				<input
-					className={`p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-persevi-grey text-white ${
-						validation.isPasswordValid
-							? 'border-persevi-blue'
-							: formData.pwd === ''
-								? 'border-gray-300'
-								: 'border-red-500'
-					}`}
+					className={`p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-persevi-grey text-white 
+					 ${validation.isPasswordValid ? 'border-persevi-blue' : formData.pwd === '' ? 'border-gray-300' : 'border-red-500'}`}
 					id="pwd"
 					type="password"
 					placeholder="비밀번호"
 					onChange={onChange}
+					required
 				/>
 				<label htmlFor="name text-white">Name</label>
 				<input
@@ -107,6 +104,7 @@ function Register() {
 					type="text"
 					placeholder="이름"
 					onChange={onChange}
+					required
 				/>
 				<label htmlFor="email">Email</label>
 				<span className={`${validation.isEmailValid ? 'text-persevi-blue' : 'text-red-500'}`}>
@@ -128,6 +126,7 @@ function Register() {
 					type="text"
 					placeholder="이메일"
 					onChange={onChange}
+					required
 				/>
 				<label htmlFor="nickname">Nickname</label>
 				<input
@@ -136,6 +135,7 @@ function Register() {
 					type="text"
 					placeholder="닉네임"
 					onChange={onChange}
+					required
 				/>
 				<label htmlFor="phone">Phone</label>
 				<span className={`${validation.isPhoneValid ? 'text-persevi-blue' : 'text-red-500'}`}>
@@ -157,6 +157,7 @@ function Register() {
 					type="text"
 					placeholder="전화번호"
 					onChange={onChange}
+					required
 				/>
 				<label htmlFor="address">지역</label>
 				<input
@@ -165,6 +166,7 @@ function Register() {
 					type="text"
 					placeholder="지역"
 					onChange={onChange}
+					required
 				/>
 				<label htmlFor="birth">생년월일</label>
 				<input
@@ -172,6 +174,7 @@ function Register() {
 					id="birth"
 					type="date"
 					onChange={onChange}
+					required
 				/>
 
 				<button className="p-2 border rounded-lg mb-4 bg-persevi-blue" type="submit">
