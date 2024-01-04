@@ -14,14 +14,15 @@ export async function registerService(userRegisterData: UserInterface) {
 
 		// 비밀번호 암호화
 		const salt = await bcrypt.genSalt(10);
-		pwd = await bcrypt.hash('1234', salt);
+		pwd = await bcrypt.hash(pwd, salt);
 
 		const user = repository.create({ name, email, uid, pwd, nickname, phone, address, birth, banknum, bank, grade });
 		const userData = await repository.save(user);
+
 		return userData;
 	} catch (e) {
 		console.log(e);
-		throw new Error('User registeration failed.');
+		throw new Error('회원가입 실패');
 	}
 }
 export async function loginService(userLoginData: UserInterface) {
@@ -38,7 +39,6 @@ export async function loginService(userLoginData: UserInterface) {
 			loginObj.msg = '사용자를 찾을 수 없습니다.';
 			throw new Error('사용자를 찾을 수 없습니다.');
 		}
-		console.log(`loginUser ${loginUser}`);
 
 		const isPwdMatch = await bcrypt.compare(pwd, loginUser.pwd);
 
@@ -47,6 +47,7 @@ export async function loginService(userLoginData: UserInterface) {
 			loginObj.msg = '비밀번호가 일치하지 않습니다.';
 			throw new Error('비밀번호가 일치하지 않습니다.');
 		}
+
 		return loginObj;
 	} catch (e) {
 		console.log(e);

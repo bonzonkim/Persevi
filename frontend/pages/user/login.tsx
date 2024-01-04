@@ -16,7 +16,6 @@ function Login() {
 				if (res.data.msg !== '') {
 					setMsg(res.data.msg);
 					if (res.data.msg.includes('환영합니다')) {
-						// Redirect to home page
 						window.location.href = '/';
 					}
 				}
