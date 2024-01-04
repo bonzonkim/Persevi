@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
+import Layout from '@/components/layout/layout';
 
 
 /*
@@ -10,9 +11,9 @@ import Footer from "@/components/layout/footer";
 const App = ({ Component, pageProps }: any) => {
   return(
       <div>
-          <Navbar/>
+      <Layout>
           <Component {...pageProps}/>
-          <Footer />
+      </Layout>
       </div>
   )
 };
