@@ -1,5 +1,4 @@
 import type { Config } from 'tailwindcss'
-import colors from 'tailwindcss/colors';
 
 const config: Config = {
   content: [
@@ -12,6 +11,7 @@ const config: Config = {
       colors: {
         'persevi-blue': '#8AB4F7',
         'persevi-grey': '#3C3C3C',
+        'persevi-gray': '#3C3C3C',
         'persevi-black': '#2B2B2B'
       },
       backgroundImage: {
