@@ -7,9 +7,9 @@ import Link from "next/link";
 export default function Footer() {
     return (
         <>
-            <div className="bg-persevi-grey py-4 w-screen footer bottom-0">
+            <footer className="bg-persevi-grey py-4">
                 <div className='mx-3'>
-                    <footer className='flex flex-row text-white text-center items-center space-x-5 > *'>
+                    <div className='flex flex-row text-white text-center items-center space-x-5 > *'>
                         <Link href='https://instagram.com' target='_blank'>
                             <FaInstagram/>
                         </Link>
@@ -17,9 +17,9 @@ export default function Footer() {
                             <MdOutlineMailOutline/>
                         </Link>
                         <span> &copy; 2024 Persevi </span>
-                    </footer>
+                    </div>
                 </div>
-            </div>
+            </footer>
         </>
     );
 }
