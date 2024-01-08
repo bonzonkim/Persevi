@@ -1,5 +1,6 @@
 import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 function Login() {
 	const [msg, setMsg] = useState('');
@@ -13,11 +14,10 @@ function Login() {
 		axios
 			.post('http://localhost:3099/api/user/login', formData)
 			.then(res => {
+				Cookies.set('userId', formData.uid);
+				window.location.href = '/';
 				if (res.data.msg !== '') {
 					setMsg(res.data.msg);
-					if (res.data.msg.includes('환영합니다')) {
-						window.location.href = '/';
-					}
 				}
 			})
 			.catch(e => {
