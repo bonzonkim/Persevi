@@ -1,6 +1,5 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
-import './register-styles.module.css';
 
 function Register() {
 	const [msg, setMsg] = useState('');
@@ -11,7 +10,6 @@ function Register() {
 		pwd: '',
 		nickname: '',
 		phone: '',
-		address: '',
 		birth: Date
 	});
 
@@ -39,8 +37,9 @@ function Register() {
 				.then(res => {
 					console.log(res);
 					setMsg(res.data.msg);
+					console.log(res.data.msg);
 					if (res.data.msg.includes('완료되었습니다')) {
-						location.href = '/';
+						window.location.href = '/';
 					}
 				})
 				.catch(e => {
@@ -156,15 +155,6 @@ function Register() {
 					id="phone"
 					type="text"
 					placeholder="전화번호"
-					onChange={onChange}
-					required
-				/>
-				<label htmlFor="address">지역</label>
-				<input
-					className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 bg-persevi-grey text-white"
-					id="address"
-					type="text"
-					placeholder="지역"
 					onChange={onChange}
 					required
 				/>
