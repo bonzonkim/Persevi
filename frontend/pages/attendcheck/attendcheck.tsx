@@ -1,31 +1,26 @@
-import React, { useState } from 'react';
-import Calendar from 'react-calendar';
-import './style.module.css';
-// import 'react-calendar/dist/Calendar.css';
-import moment from 'moment';
-
-export default function MyApp() {
-	const [today, onChangeToday] = useState(new Date());
-
-	const onChange = () => {
-		onChangeToday(today);
-	};
-
-	const marks = ['15-01-2022', '03-01-2022', '07-01-2022', '12-01-2022', '13-01-2022', '15-01-2022'];
-
-	return (
-		<div>
-			<Calendar
-				className={'react-calendar'}
-				onChange={onChange}
-				value={today}
-				locale="ko-KR"
-				tileClassName={({ date, view }) => {
-					if (marks.find(x => x === moment(date).format('DD-MM-YYYY'))) {
-						return 'highlight';
-					}
-				}}
-			/>
-		</div>
-	);
-}
+// import React, { Component } from 'react';
+// import FullCalendar from '@fullcalendar/react';
+// import dayGridPlugin from '@fullcalendar/daygrid';
+// import './style.module.css';
+// function MyCalendar() {
+// 	return (
+// 		<div>
+// 			<FullCalendar locale="ko-KO" defaultView="dayGridMonth" plugins={[dayGridPlugin]} />
+// 			{/* eslint-disable-next-line react/no-unknown-property */}
+// 			<style jsx>
+// 				{`
+// 					.fc-day-sun a {
+// 						color: red;
+// 					}
+//
+// 					/* 토요일 날짜: 파란색 */
+// 					.fc-day-sat a {
+// 						color: blue;
+// 					}
+// 				`}
+// 			</style>
+// 		</div>
+// 	);
+// }
+//
+// export default MyCalendar;
