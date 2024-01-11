@@ -9,13 +9,6 @@ const PORT = 3099;
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(
-// 	session({
-// 		secret: 'persevi123',
-// 		resave: false,
-// 		saveUninitialized: true
-// 	})
-// );
 app.use(CookieParser());
 app.use('/api/user', userRouter);
 
