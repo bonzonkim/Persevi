@@ -12,15 +12,21 @@ function Login() {
 	function onSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		axios
-			.post('http://localhost:3099/api/user/login', formData)
+			.post('http://localhost:3099/api/user/login', formData, { withCredentials: true })
 			.then(res => {
-				Cookies.set('userId', formData.uid);
-				window.location.href = '/';
+				if (res.data.uid) {
+					Cookies.set('userId', res.data.uid);
+					window.location.href = '/';
+				} else {
+					window.location.reload();
+				}
+
 				if (res.data.msg !== '') {
 					setMsg(res.data.msg);
 				}
 			})
 			.catch(e => {
+				setMsg(e.message);
 				console.log(e);
 			});
 	}

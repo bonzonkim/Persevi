@@ -5,16 +5,22 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export default function Navbar() {
-	const [userId, setUserId] = useState('');
+	const [userId, setUserId] = useState<string>('');
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [msg, setMsg] = useState('');
+
 	useEffect(() => {
-		if (Cookies.get('userId')) {
-			const userId = Cookies.get('userId');
-			setUserId(userId);
+		const storedUserId = Cookies.get('userId');
+		console.log(storedUserId);
+
+		if (storedUserId) {
+			setUserId(storedUserId);
 			setIsLoggedIn(true);
+		} else {
+			setIsLoggedIn(false); // Set isLoggedIn to false if there is no storedUserId
 		}
-	}, [userId]);
+	}, []); // Empty dependency array, runs only once on component mount
+
 	function logout() {
 		Cookies.remove('userId');
 		setIsLoggedIn(false);
@@ -23,6 +29,7 @@ export default function Navbar() {
 			window.location.reload();
 		});
 	}
+
 	useEffect(() => {
 		if (msg !== '') {
 			alert(msg);
@@ -46,14 +53,14 @@ export default function Navbar() {
 							<>
 								<li>
 									<Link href="/user/mypage">
-										<button className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-white md:hover:text-blue-500  hover:text-white ">
+										<button className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0 text-white hover:text-white ">
 											{userId} 님의 마이페이지
 										</button>
 									</Link>
 								</li>
 								<li>
 									<button
-										className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-white md:hover:text-blue-500  hover:text-white"
+										className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-white  hover:text-white"
 										onClick={logout}
 									>
 										로그아웃
@@ -64,14 +71,14 @@ export default function Navbar() {
 							<>
 								<li>
 									<Link href="/user/register">
-										<button className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-white md:hover:text-blue-500  hover:text-white ">
+										<button className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-white  hover:text-white ">
 											회원가입
 										</button>
 									</Link>
 								</li>
 								<li>
 									<Link href="/user/login">
-										<button className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-white md:hover:text-blue-500  hover:text-white ">
+										<button className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-white  hover:text-white ">
 											로그인
 										</button>
 									</Link>
