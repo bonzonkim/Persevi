@@ -1,17 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-enum ProductSize {
-	Small = 'S',
-	Medium = 'M',
-	Large = 'L',
-	XLarge = 'XL',
-	XXLarge = '2XL',
-	FreeSize = 'FREE'
-}
 @Entity('PRODUCT')
 export class Product {
 	@PrimaryGeneratedColumn()
-	product_id!: number;
+	prod_id!: number;
 
 	@Column({ type: 'varchar', nullable: false })
 	prod_nm!: string;
@@ -25,7 +17,7 @@ export class Product {
 	@Column({ type: 'varchar', nullable: false })
 	prod_price2!: string;
 
-	@Column({ type: 'enum', default: ProductSize.FreeSize, nullable: false })
+	@Column({ type: 'varchar', nullable: false })
 	prod_size!: string;
 
 	@Column({ type: 'varchar', nullable: true })
@@ -44,7 +36,7 @@ export class Product {
 	prod_img2?: Buffer;
 
 	@Column({ type: 'int', nullable: false })
-	prod_cate?: number;
+	prod_cate!: number;
 	@Column({ type: 'int', nullable: false })
-	prod_use?: number;
+	prod_use!: number;
 }

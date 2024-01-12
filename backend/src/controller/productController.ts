@@ -1,29 +1,38 @@
 import { Request, Response } from 'express';
-import { UserInterface } from '../model/userModel';
-import { registerService, loginService } from '../service/userService';
+import { ProductInterface } from '../model/productModel';
+import { productList } from '../service/productService';
 
-export async function register(req: Request<{}, {}, UserInterface>, res: Response) {
+// export async function register(req: Request<{}, {}, ProductInterface>, res: Response) {
+// 	try {
+// 		const productData = await ProductRegister(req.body);
+// 		console.log(productData);
+// 		// res.json({ msg: `${productData.}이 등록되었습니다.` });
+// 	} catch (e) {
+// 		console.log(e);
+// 		res.status(500).json({ error: 'Internal Server Error' });
+// 	}
+// }
+// export async function getproductList(req: Request<{}, ProductInterface>, res: Response) {
+// 	const productData = await productList();
+// 	const prodName = productData[prod_nm];
+// 	console.log(`컨트롤러${prodName}`);
+// 	// let test = [];
+// 	// console.log(productObj);
+//
+
+export async function getproductList(req: Request<{}, ProductInterface>, res: Response) {
 	try {
-		const userData = await registerService(req.body);
-		console.log(userData);
-		res.json({ msg: `${userData.uid}님 회원가입이 완료되었습니다.` });
-	} catch (e) {
-		console.log(e);
-		res.status(500).json({ error: 'Internal Server Error' });
-	}
-}
-export async function login(req: Request<{}, {}, UserInterface>, res: Response) {
-	try {
-		const userData = await loginService(req.body);
-		console.log(userData);
-		res.json({ msg: `${userData.loginUser!.uid}님 환영합니다.` });
-	} catch (e: any) {
-		if (e.message === '비밀번호가 일치하지 않습니다.') {
-			res.json({ msg: '비밀번호가 일치하지 않습니다.' });
-		} else if (e.message === '사용자를 찾을 수 없습니다.') {
-			res.json({ msg: '사용자를 찾을 수 없습니다.' });
-		}
-		console.log(e);
-		res.json({ msg: '로그인실패' });
+		const productData = await productList();
+
+		// Assuming productData is an array of products
+		productData.forEach(product => {
+			console.log(`컨트롤러 ${product.prod_nm}`); // Access the product property you want to log
+		});
+
+		// Send the product list as a response if needed
+		res.json(productData);
+	} catch (error) {
+		console.error(error);
+		res.status(500).send('에러 발생'); // Send an error response
 	}
 }
