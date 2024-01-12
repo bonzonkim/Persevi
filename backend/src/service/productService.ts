@@ -1,76 +1,84 @@
 import { AppDataSource } from '../config/db';
 import { Product } from '../entity/Product';
-import { ProductInterface } from '../model/productModel';
-import product from '../test/product/product';
+// import { ProductInterface } from '../model/productModel';
+// import * as buffer from 'buffer';
 
-const repository = AppDataSource.getRepository(product);
+const repository = AppDataSource.getRepository(Product);
 
-export async function registerService(productRegisterData: ProductInterface) {
-	try {
-		// eslint-disable-next-line prefer-const
-		const {
-			prod_nm,
-			prod_price,
-			prod_price1,
-			prod_price2,
-			prod_size,
-			prod_color,
-			prod_info,
-			prod_img,
-			prod_img1,
-			prod_img2,
-			prod_cate,
-			prod_use
-		} = productRegisterData;
-
-		const product = repository.create({
-			prod_nm,
-			prod_price,
-			prod_price1,
-			prod_price2,
-			prod_size,
-			prod_color,
-			prod_info,
-			prod_img,
-			prod_img1,
-			prod_img2,
-			prod_cate,
-			prod_use
-		});
-		const productData = await repository.save(product);
-
-		return productData;
-	} catch (e) {
-		console.log(e);
-		throw new Error('상품등록 실패');
-	}
-}
-// export async function loginService(userLoginData: UserInterface) {
+// export async function ProductRegister(productRegisterData: ProductInterface) {
 // 	try {
-// 		const { uid, pwd } = userLoginData;
+// 		// eslint-disable-next-line prefer-const
+// 		const {
+// 			prod_nm,
+// 			prod_price,
+// 			prod_price1,
+// 			prod_price2,
+// 			prod_size,
+// 			prod_color,
+// 			prod_info,
+// 			prod_img,
+// 			prod_img1,
+// 			prod_img2,
+// 			prod_cate,
+// 			prod_use
+// 		} = productRegisterData;
 //
-// 		const loginUser = await repository.findOneBy({ uid: uid });
-// 		const loginObj = {
-// 			loginUser: loginUser,
-// 			msg: ''
-// 		};
+// 		const product = repository.create({
+// 			prod_nm,
+// 			prod_price,
+// 			prod_price1,
+// 			prod_price2,
+// 			prod_size,
+// 			prod_color,
+// 			prod_info,
+// 			prod_img,
+// 			prod_img1,
+// 			prod_img2,
+// 			prod_cate,
+// 			prod_use
+// 		});
+// 		const productData = await repository.save(product);
 //
-// 		if (!loginUser) {
-// 			loginObj.msg = '사용자를 찾을 수 없습니다.';
-// 			throw new Error('사용자를 찾을 수 없습니다.');
-// 		}
-//
-// 		const isPwdMatch = await bcrypt.compare(pwd, loginUser.pwd);
-//
-// 		console.log(`isPwdMatch ${isPwdMatch}`);
-// 		if (!isPwdMatch) {
-// 			loginObj.msg = '비밀번호가 일치하지 않습니다.';
-// 			throw new Error('비밀번호가 일치하지 않습니다.');
-// 		}
-//
-// 		return loginObj;
+// 		return productData;
 // 	} catch (e) {
 // 		console.log(e);
-// 		throw new Error('로그인 실패');
+// 		throw new Error('상품등록 실패');
 // 	}
+// }
+// export async function productList() {
+// 	try {
+// 		// 모든 상품을 조회하려면 findBy 대신 find 함수를 사용합니다.
+// 		const allProducts = await repository.find();
+//
+// 		return allProducts;
+// 	} catch (e) {
+// 		console.log(e);
+// 		throw new Error('에러 발생');
+// 	}
+export async function productList() {
+	try {
+		// Assuming you have a repository with a find function
+		const allProducts = await repository.find();
+		console.log(allProducts);
+		return allProducts;
+	} catch (e) {
+		console.error(e);
+		throw new Error('에러 발생');
+	}
+}
+// try {
+// 	const productListData = Product;
+//
+// 	const listProduct = await repository.find();
+// 	// const listProduct2 = await repository.findOperator<buffer>({ prod_img: prod_img });
+// 	// const listProduct3 = await repository.find();
+// 	const listObj = {
+// 		listProduct: listProduct,
+// 		msg: ''
+// 	};
+//
+// 	return listObj;
+// } catch (e) {
+// 	console.log(e);
+// 	throw new Error('안떠');
 // }
