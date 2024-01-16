@@ -15,8 +15,9 @@ function SizeButton({ id, size, dataUpdate }) {
 				<button
 					name={id}
 					id={id}
-					className={`block flex-1 bg-transparent py-1.5 pl-1 placeholder:text-gray-400 sm:text-sm sm:leading-6 text-white border rounded-md ${
-						isSizeButtonClicked ? 'border-persevi-blue' : 'border-white'
+					type="button"
+					className={`block flex-1 bg-transparent py-1.5 pl-1 placeholder:text-gray-400 sm:text-sm sm:leading-6 border rounded-md ${
+						isSizeButtonClicked ? 'border-persevi-blue text-persevi-blue' : 'border-white text-white'
 					} `}
 					onClick={sizeButtonClick}
 				>
@@ -29,7 +30,8 @@ function SizeButton({ id, size, dataUpdate }) {
 
 SizeButton.propsTypes = {
 	id: PropTypes.string.isRequired,
-	size: PropTypes.string.isRequired
+	size: PropTypes.string.isRequired,
+	dataUpdate: PropTypes.func.isRequired
 };
 
 export default SizeButton;
