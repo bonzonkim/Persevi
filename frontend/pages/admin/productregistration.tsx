@@ -2,7 +2,6 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import SizeButton from '../../components/sizeButton';
-import { MdSensorWindow } from 'react-icons/md';
 
 function productregistration() {
 	const [msg, setMsg] = useState('');
@@ -11,7 +10,7 @@ function productregistration() {
 		prod_price: '',
 		prod_price1: '',
 		prod_price2: '',
-		prod_size: '',
+		prod_size: new Array(),
 		prod_color: '',
 		prod_info: '',
 		prod_img: '',
@@ -42,7 +41,7 @@ function productregistration() {
 
 	//카테고리
 	function cataSelect(e: ChangeEvent<HTMLSelectElement>) {
-		setFormData({ ...formData, [e.target.id]: e.target.value });
+		setFormData({ ...formData, [e.target.id]: Number(e.target.value) });
 	}
 
 	//상세 설명
@@ -51,30 +50,36 @@ function productregistration() {
 	}
 
 	function sizeDataUpdate(id: string, isClicked: boolean) {
-		if (formData.prod_size === '') {
-			switch (id) {
-				case 'size_xs':
-					isClicked
-						? setFormData({ ...formData, ['prod_size']: 'XS' })
-						: formData.prod_size.includes('XS')
-							? setFormData({ ...formData, ['prod_size']: formData.prod_size.replace('XS', '') })
-							: setFormData({ ...formData, ['prod_size']: formData.prod_size });
-					break;
-				case 'size_s':
-					break;
-				case 'size_m':
-					break;
-				case 'size_l':
-					break;
-				case 'size_xl':
-					isClicked
-						? setFormData({ ...formData, ['prod_size']: 'XL' })
-						: formData.prod_size.includes('XL')
-							? setFormData({ ...formData, ['prod_size']: formData.prod_size.replace('XL', '') })
-							: setFormData({ ...formData, ['prod_size']: formData.prod_size });
-					break;
+		const sizes = [...formData.prod_size];
+
+		switch (id) {
+			case 'size_xs':
+				isClicked ? sizesValueRemove(sizes, 'XS') : sizes.push('XS');
+				break;
+			case 'size_s':
+				isClicked ? sizesValueRemove(sizes, 'S') : sizes.push('S');
+				break;
+			case 'size_m':
+				isClicked ? sizesValueRemove(sizes, 'M') : sizes.push('M');
+				break;
+			case 'size_l':
+				isClicked ? sizesValueRemove(sizes, 'L') : sizes.push('L');
+				break;
+			case 'size_xl':
+				isClicked ? sizesValueRemove(sizes, 'XL') : sizes.push('XL');
+				break;
+		}
+
+		setFormData({ ...formData, ['prod_size']: sizes });
+	}
+
+	//sizes Array에서 특정 값 제거하는 function
+	function sizesValueRemove(sizes: string[], value: string) {
+		for (let i = 0; i < sizes.length; i++) {
+			if (sizes[i] === value) {
+				sizes.splice(i, 1);
+				i--;
 			}
-		} else {
 		}
 	}
 
@@ -85,14 +90,7 @@ function productregistration() {
 	}, [msg]);
 
 	return (
-		<form onSubmit={onSubmit} className="persevi-padding">
-			<style jsx>
-				{`
-					.persevi-padding {
-						padding: 0 10% 0 10%;
-					}
-				`}
-			</style>
+		<form onSubmit={onSubmit} style={{ padding: '0 10% 0 10%' }}>
 			<div className="space-y-12">
 				<div className="mt-3 grid grid-cols-1 gap-x-5 gap-y-7 sm:grid-cols-6">
 					<div className="col-span-1">
@@ -105,7 +103,7 @@ function productregistration() {
 							className="mt-2 block w-full rounded-md border py-1.5 text-white ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 bg-transparent"
 							onChange={cataSelect}
 						>
-							<option value={Number(0)}>Outer</option>
+							<option value={0}>Outer</option>
 							<option value={1}>Top</option>
 							<option value={2}>Bottom</option>
 							<option value={3}>Bag</option>
@@ -250,7 +248,7 @@ function productregistration() {
 							/>
 						</div>
 					</div>
-					{/* <div className="col-span-5">
+					<div className="col-span-5">
 						<label htmlFor="img" className="block text-sm font-medium leading-6 text-white">
 							제품 사진
 						</label>
@@ -272,7 +270,7 @@ function productregistration() {
 							</div>
 							<div className="w-1/2 border border-white rounded-br-md rounded-tr-md">이미지 들어가는 공간</div>
 						</div>
-					</div> */}
+					</div>
 					<div className="col-span-full mt-2 flex justify-end">
 						<button className="p-2 rounded-md mb-4 bg-persevi-blue w-20 text-white" type="submit">
 							등 록
