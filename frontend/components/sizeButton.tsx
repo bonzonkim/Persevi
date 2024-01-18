@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function SizeButton({ id, size, dataUpdate }) {
+interface ISizeButtonProps {
+	id: string;
+	size: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	dataUpdate: any;
+}
+
+function SizeButton({ id, size, dataUpdate }: ISizeButtonProps) {
 	const [isSizeButtonClicked, setSizeButtonClicked] = useState(false);
 
 	function sizeButtonClick() {
