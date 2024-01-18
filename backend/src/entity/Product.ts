@@ -11,7 +11,7 @@ enum ProductSize {
 @Entity('Product')
 export class Product {
 	@PrimaryGeneratedColumn()
-	product_id!: number;
+	prod_id!: number;
 
 	@Column({ type: 'varchar', nullable: false })
 	prod_nm!: string;
