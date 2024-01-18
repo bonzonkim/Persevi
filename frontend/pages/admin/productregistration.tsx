@@ -2,6 +2,7 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import SizeButton from '../../components/sizeButton';
+import PrcieInput from '../../components/priceInput';
 
 function productregistration() {
 	const [msg, setMsg] = useState('');
@@ -10,6 +11,7 @@ function productregistration() {
 		prod_price: '',
 		prod_price1: '',
 		prod_price2: '',
+		// eslint-disable-next-line @typescript-eslint/no-array-constructor
 		prod_size: new Array(),
 		prod_color: '',
 		prod_info: '',
@@ -89,6 +91,26 @@ function productregistration() {
 		}
 	}, [msg]);
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//const [image, setImage] = useState([]);
+	//const [imagePreviews, setImagePreviews] = useState([]);
+	//
+	//function handleMultipleImage(e: ChangeEvent<HTMLInputElement>) {
+	//	const files = [...e.target.files];
+	//	setImage(files);
+	//	const previews = [];
+	//	files.forEach(file => {
+	//		const reader = new FileReader();
+	//		reader.onload = () => {
+	//			previews.push(reader.result);
+	//			if (previews.length === files.length) {
+	//				setImagePreviews(previews);
+	//			}
+	//		};
+	//		reader.readAsDataURL(file);
+	//	});
+	//}
+
 	return (
 		<form onSubmit={onSubmit} style={{ padding: '0 10% 0 10%' }}>
 			<div className="space-y-12">
@@ -123,63 +145,31 @@ function productregistration() {
 									className="block flex-1 bg-transparent py-1.5 pl-1 placeholder:text-gray-400 sm:text-sm sm:leading-6 text-white"
 									placeholder="상품명"
 									onChange={onChange}
+									// autoComplete="off" 자동완성 비활성화
 								/>
 							</div>
 						</div>
 					</div>
 
-					<div className="col-span-1">
+					<div className="sm:col-span-1">
 						<label htmlFor="prod_price" className="block text-sm font-medium text-white">
 							판매가격(₩)
 						</label>
-						<div className="mt-2">
-							<div className="flex rounded-md ring-1 ring-gray-300 sm:max-w-md">
-								<input
-									type="text"
-									name="prod_price"
-									id="prod_price"
-									className="block flex-1 bg-transparent py-1.5 pl-1 placeholder:text-gray-400 sm:text-sm sm:leading-6 text-white"
-									placeholder="판매가격"
-									onChange={onChange}
-								/>
-							</div>
-						</div>
+						<PrcieInput id="prod_price" placeholder="판매가격" onChange={onChange} />
 					</div>
 
-					<div className="col-span-1">
+					<div className="sm:col-span-1">
 						<label htmlFor="prod_price1" className="block text-sm font-medium text-white">
 							원가(₩)
 						</label>
-						<div className="mt-2">
-							<div className="flex rounded-md ring-1 ring-gray-300 sm:max-w-md">
-								<input
-									type="text"
-									name="prod_price1"
-									id="prod_price1"
-									className="block flex-1 bg-transparent py-1.5 pl-1 placeholder:text-gray-400 sm:text-sm sm:leading-6 text-white"
-									placeholder="원가"
-									onChange={onChange}
-								/>
-							</div>
-						</div>
+						<PrcieInput id="prod_price1" placeholder="원가" onChange={onChange} />
 					</div>
 
-					<div className="col-span-1">
+					<div className="sm:col-span-1">
 						<label htmlFor="prod_price2" className="block text-sm font-medium text-white">
 							판매수익(₩)
 						</label>
-						<div className="mt-2">
-							<div className="flex rounded-md ring-1 ring-gray-300 sm:max-w-md">
-								<input
-									type="text"
-									name="prod_price2"
-									id="prod_price2"
-									className="block flex-1 bg-transparent py-1.5 pl-1 placeholder:text-gray-400 sm:text-sm sm:leading-6 text-white"
-									placeholder="판매수익"
-									onChange={onChange}
-								/>
-							</div>
-						</div>
+						<PrcieInput id="prod_price2" placeholder="판매수익" onChange={onChange} />
 					</div>
 
 					<div className="col-start-1 col-span-1">
@@ -261,7 +251,13 @@ function productregistration() {
 											className="relative cursor-pointer rounded-md bg-transparent font-semibold text-persevi-blue focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
 										>
 											<span>Upload a file</span>
-											<input id="file-upload" name="file-upload" type="file" className="sr-only" />
+											<input
+												id="file-upload"
+												name="file-upload"
+												type="file"
+												className="sr-only"
+												//onChange={handleMultipleImage}
+											/>
 										</label>
 										<p className="pl-1">or drag and drop</p>
 									</div>
