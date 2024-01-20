@@ -3,6 +3,7 @@ import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import SizeButton from '../../components/sizeButton';
 import PrcieInput from '../../components/priceInput';
+import FileUploader from '../../components/fileUploader';
 
 function productregistration() {
 	const [msg, setMsg] = useState('');
@@ -90,26 +91,6 @@ function productregistration() {
 			alert(msg);
 		}
 	}, [msg]);
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//const [image, setImage] = useState([]);
-	//const [imagePreviews, setImagePreviews] = useState([]);
-	//
-	//function handleMultipleImage(e: ChangeEvent<HTMLInputElement>) {
-	//	const files = [...e.target.files];
-	//	setImage(files);
-	//	const previews = [];
-	//	files.forEach(file => {
-	//		const reader = new FileReader();
-	//		reader.onload = () => {
-	//			previews.push(reader.result);
-	//			if (previews.length === files.length) {
-	//				setImagePreviews(previews);
-	//			}
-	//		};
-	//		reader.readAsDataURL(file);
-	//	});
-	//}
 
 	return (
 		<form onSubmit={onSubmit} style={{ padding: '0 10% 0 10%' }}>
@@ -242,30 +223,7 @@ function productregistration() {
 						<label htmlFor="img" className="block text-sm font-medium leading-6 text-white">
 							제품 사진
 						</label>
-						<div className=" mt-2 card flex bg-transparent h-60 w-8/12">
-							<div className="w-1/2 border-t border-l border-b border-white border-dashed rounded-bl-md rounded-tl-md flex items-center justify-center">
-								<div className="text-center">
-									<div className="flex text-sm leading-6 text-gray-600">
-										<label
-											htmlFor="file-upload"
-											className="relative cursor-pointer rounded-md bg-transparent font-semibold text-persevi-blue focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-										>
-											<span>Upload a file</span>
-											<input
-												id="file-upload"
-												name="file-upload"
-												type="file"
-												className="sr-only"
-												//onChange={handleMultipleImage}
-											/>
-										</label>
-										<p className="pl-1">or drag and drop</p>
-									</div>
-									<p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-								</div>
-							</div>
-							<div className="w-1/2 border border-white rounded-br-md rounded-tr-md">이미지 들어가는 공간</div>
-						</div>
+						<FileUploader />
 					</div>
 					<div className="col-span-full mt-2 flex justify-end">
 						<button className="p-2 rounded-md mb-4 bg-persevi-blue w-20 text-white" type="submit">
