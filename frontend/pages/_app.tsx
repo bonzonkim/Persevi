@@ -1,6 +1,5 @@
 import '../styles/globals.css';
-import Navbar from "@/components/layout/navbar";
-import Footer from "@/components/layout/footer";
+import { CookiesProvider } from 'react-cookie';
 import Layout from '@/components/layout/layout';
 
 
@@ -10,11 +9,11 @@ import Layout from '@/components/layout/layout';
  */
 const App = ({ Component, pageProps }: any) => {
   return(
-      <div>
+    <CookiesProvider>
       <Layout>
           <Component {...pageProps}/>
       </Layout>
-      </div>
+    </CookiesProvider>
   )
 };
 
