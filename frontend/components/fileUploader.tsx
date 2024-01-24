@@ -1,4 +1,3 @@
-import { link } from 'fs';
 import React, { useState, ChangeEvent } from 'react';
 //import PropTypes from 'prop-types';
 
@@ -27,7 +26,13 @@ function FileUploader() {
 					<ul>
 						{Array.from(images).map((img, index) => (
 							<li key={index}>
-								{img.name} ({(img.size / (1024 * 1024)).toPrecision(5)} MB)
+								<p
+									className="flex text-white cursor-pointer hover:text-persevi-blue"
+									onClick={() => handleImageSelect(index)}
+								>
+									{img.name} ({(img.size / (1024 * 1024)).toPrecision(5)} MB)
+									<span className="ml-auto">x</span>
+								</p>
 							</li>
 						))}
 					</ul>
@@ -54,9 +59,9 @@ function FileUploader() {
 					</div>
 				)}
 			</div>
-			<div className="w-1/2 block border border-white rounded-br-md rounded-tr-md">
+			<div className="w-1/2 block border border-white rounded-br-md rounded-tr-md flex items-center justify-center">
 				{selectedImage && (
-					<img className="block w-full h-auto" src={URL.createObjectURL(selectedImage)} alt="Preview" />
+					<img className="block max-w-full max-h-full" src={URL.createObjectURL(selectedImage)} alt="Preview" />
 				)}
 			</div>
 		</div>

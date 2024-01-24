@@ -40,12 +40,9 @@ export async function productService(productRegisterData: ProductInterface) {
 		throw new Error('상품등록 실패');
 	}
 }
-=======
+
 // import { ProductInterface } from '../model/productModel';
 // import * as buffer from 'buffer';
-
-const repository = AppDataSource.getRepository(Product);
-
 // export async function ProductRegister(productRegisterData: ProductInterface) {
 // 	try {
 // 		// eslint-disable-next-line prefer-const
@@ -123,4 +120,3 @@ export async function productList() {
 // 	console.log(e);
 // 	throw new Error('안떠');
 // }
-
