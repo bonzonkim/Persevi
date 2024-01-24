@@ -1,104 +1,78 @@
-import { ColumnDef, getCoreRowModel, useReactTable, flexRender, Row } from '@tanstack/react-table';
-import styled from '@emotion/styled';
+import axios from 'axios';
+import { GetServerSideProps } from 'next';
+import { useTable } from 'react-table';
 
-export type TableProps<T> = {
-	name: string;
-	data: T[];
-	columns: ColumnDef<T>[];
-	noDataMessage?: string;
-	useMinHeight?: boolean;
-};
-
-export type TableRenderSubRowComponent<T> = (props: { row: Row<T> }) => React.ReactElement;
-
-function Table<T>({ useMinHeight = true, data, columns, noDataMessage }: TableProps<T>) {
-	const table = useReactTable<T>({
-		data,
-		columns,
-		getCoreRowModel: getCoreRowModel(),
-	});
-
-	const { getHeaderGroups, getRowModel } = table;
-
-	const isNoData = getRowModel().rows.length === 0;
-
-	return (
-		<TableContainer>
-			{getHeaderGroups().map((headerGroup, index) => (
-				<TableHeader key={index} className="row">
-					{headerGroup.headers.map((header) =>
-						header.isPlaceholder ? null : (
-							<TableCell key={header.id} width={header.column.getSize()}>
-								{flexRender(header.column.columnDef.header, header.getContext())}
-							</TableCell>
-						)
-					)}
-				</TableHeader>
-			))}
-			<TableBody useMinHeight={useMinHeight}>
-				{isNoData ? (
-					<NoDataComponent useMinHeight={useMinHeight}>{noDataMessage}</NoDataComponent>
-				) : (
-					getRowModel().rows.map((row, rowIndex) => (
-						<TableRow key={row.id} className="row">
-							{row.getVisibleCells().map((cell) => (
-								<TableCell key={cell.id} width={cell.column.getSize()}>
-									{flexRender(cell.column.columnDef.cell, cell.getContext())}
-								</TableCell>
-							))}
-						</TableRow>
-					))
-				)}
-			</TableBody>
-		</TableContainer>
-	);
+interface Product {
+	prod_id: number;
+	prod_nm: string;
+	prod_price: number;
 }
 
-export default Table;
+interface ProductsProps {
+	products: Product[];
+}
+export const getServerSideProps: GetServerSideProps<ProductsProps> = async () => {
+	try {
+		// Persevi 데이터베이스에 HTTP 요청을 보내어 데이터 가져오기
+		const response = await axios.get('http://localhost:3099/api/product/list');
 
-const TableContainer = styled.div`
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	font-size: 14px;
+		// 받아온 데이터를 Product 배열로 변환
+		const products: Product[] = response.data;
 
-	.row {
-		width: 100%;
-		display: flex;
-		border-bottom: 1px solid rgba(224, 224, 224, 1);
+		// 로딩된 데이터를 props로 반환
+		return { props: { products } };
+	} catch (error) {
+		// 에러 발생 시 빈 배열을 포함한 props로 반환
+		console.error('Error fetching data:', error);
+		return { props: { products: [] } };
 	}
-`;
+};
+export default function MyTable({ products }) {
+	const data = products.map(product => ({
+		firstName: product.prod_nm,
+		lastName: product.prod_price, // 여기에 필요한 데이터가 있다면 추가
+		age: product.prod_id // 여기에 필요한 데이터가 있다면 추가
+	}));
 
-const TableCell = styled.div<{ width: number }>`
-	width: ${({ width }) => width}px;
-	padding: 16px;
-	color: rgba(0, 0, 0, 0.87);
-	display: flex;
-	align-items: center;
-	word-break: break-all;
-`;
+	// Columns configuration for the table
+	const columns = [
+		{ Header: 'Name', accessor: 'firstName' },
+		{ Header: 'Price', accessor: 'lastName' },
+		{ Header: 'Age', accessor: 'age' }
+	];
+	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
 
-const TableRow = styled.div`
-	&:hover {
-		background-color: rgba(0, 0, 0, 0.04);
-	}
-`;
+	return (
+		<div>
+			<table {...getTableProps} style={{ borderCollapse: 'collapse', width: '100%' }}>
+				<thead>
+					{headerGroups.map(headerGroup => (
+						<tr {...headerGroup.getHeaderGroupProps}>
+							{headerGroup.headers.map(column => (
+								<th
+									{...column.getHeaderProps}
+									style={{ background: 'blue', borderBottom: '2px solid black', padding: '8px' }}
+								>
+									{column.render('Header')}
+								</th>
+							))}
+						</tr>
+					))}
+				</thead>
 
-const TableHeader = styled.div`
-	font-weight: 500;
-`;
-
-const TableBody = styled.div<{ useMinHeight: boolean }>`
-	min-height: ${({ useMinHeight }) => (useMinHeight ? '560px' : 'auto')};
-	display: flex;
-	flex-direction: column;
-`;
-
-const NoDataComponent = styled.div<{ useMinHeight: boolean }>`
-	width: 100%;
-	height: ${({ useMinHeight }) => (useMinHeight ? '560px' : 'auto')};
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
+				<tbody {...getTableBodyProps}>
+					{rows.map(row => {
+						prepareRow(row);
+						return (
+							<tr {...row.getRowProps} style={{ background: 'red', borderBottom: '1px solid black', padding: '8px' }}>
+								{row.cells.map(cell => (
+									<td {...cell.getCellProps}>{cell.render('Cell')}</td>
+								))}
+							</tr>
+						);
+					})}
+				</tbody>
+			</table>
+		</div>
+	);
+}

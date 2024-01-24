@@ -1,5 +1,6 @@
 import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 function Login() {
 	const [msg, setMsg] = useState('');
@@ -11,16 +12,21 @@ function Login() {
 	function onSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		axios
-			.post('http://localhost:3099/api/user/login', formData)
+			.post('http://localhost:3099/api/user/login', formData, { withCredentials: true })
 			.then(res => {
+				if (res.data.uid) {
+					Cookies.set('userId', res.data.uid);
+					window.location.href = '/';
+				} else {
+					window.location.reload();
+				}
+
 				if (res.data.msg !== '') {
 					setMsg(res.data.msg);
-					if (res.data.msg.includes('환영합니다')) {
-						window.location.href = '/';
-					}
 				}
 			})
 			.catch(e => {
+				setMsg(e.message);
 				console.log(e);
 			});
 	}

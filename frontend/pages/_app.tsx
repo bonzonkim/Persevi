@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import Navbar from '@/components/layout/navbar';
 import Footer from '@/components/layout/footer';
+import { CookiesProvider } from 'react-cookie';
 import Layout from '@/components/layout/layout';
 
 /*
@@ -8,13 +9,13 @@ import Layout from '@/components/layout/layout';
   /styles/globals.css 가 글로벌 css파일
  */
 const App = ({ Component, pageProps }: any) => {
-	return (
-		<div>
-			<Layout>
-				<Component {...pageProps} />
-			</Layout>
-		</div>
-	);
+  return(
+    <CookiesProvider>
+      <Layout>
+          <Component {...pageProps}/>
+      </Layout>
+    </CookiesProvider>
+  )
 };
 
 export default App;

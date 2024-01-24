@@ -42,7 +42,7 @@ export async function loginService(userLoginData: UserInterface) {
 
 		const isPwdMatch = await bcrypt.compare(pwd, loginUser.pwd);
 
-		console.log(`isPwdMatch ${isPwdMatch}`);
+		// console.log(`isPwdMatch ${isPwdMatch}`);
 		if (!isPwdMatch) {
 			loginObj.msg = '비밀번호가 일치하지 않습니다.';
 			throw new Error('비밀번호가 일치하지 않습니다.');
@@ -52,5 +52,17 @@ export async function loginService(userLoginData: UserInterface) {
 	} catch (e) {
 		console.log(e);
 		throw new Error('로그인 실패');
+	}
+}
+
+export async function isLoggedInService(uid: string | undefined) {
+	try {
+		const loginUser = await repository.findOneBy({ uid: uid });
+
+		console.log(loginUser);
+
+		return loginUser;
+	} catch (e) {
+		console.log(e);
 	}
 }
