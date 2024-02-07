@@ -30,7 +30,7 @@ export async function loginService(userLoginData: UserInterface) {
 		const { uid, pwd } = userLoginData;
 
 		const loginUser = await repository.findOneBy({ uid: uid });
-		const loginObj = {
+		let loginObj = {
 			loginUser: loginUser,
 			msg: ''
 		};
@@ -42,7 +42,6 @@ export async function loginService(userLoginData: UserInterface) {
 
 		const isPwdMatch = await bcrypt.compare(pwd, loginUser.pwd);
 
-		// console.log(`isPwdMatch ${isPwdMatch}`);
 		if (!isPwdMatch) {
 			loginObj.msg = '비밀번호가 일치하지 않습니다.';
 			throw new Error('비밀번호가 일치하지 않습니다.');

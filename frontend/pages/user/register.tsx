@@ -25,8 +25,8 @@ function Register() {
 	}
 
 	function validatePhone(phone: string): boolean {
-		const passwordRegEx = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
-		return passwordRegEx.test(phone);
+		const phoneRegEx = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
+		return phoneRegEx.test(phone);
 	}
 
 	function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -92,7 +92,7 @@ function Register() {
 					 ${validation.isPasswordValid ? 'border-persevi-blue' : formData.pwd === '' ? 'border-gray-300' : 'border-red-500'}`}
 					id="pwd"
 					type="password"
-					placeholder="비밀번호"
+					placeholder="영어 대소문자,숫자 8~20글자"
 					onChange={onChange}
 					required
 				/>

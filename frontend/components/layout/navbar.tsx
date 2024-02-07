@@ -2,27 +2,29 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import { useCookies } from 'react-cookie';
 
 export default function Navbar() {
 	const [userId, setUserId] = useState<string>('');
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [msg, setMsg] = useState('');
+	const [cookies, setCookie, removeCookie] = useCookies(['userId']);
 
 	useEffect(() => {
-		const storedUserId = Cookies.get('userId');
+		const storedUserId = cookies.userId;
 		console.log(storedUserId);
+		console.log(`isLoggedIn : ${isLoggedIn}`);
 
 		if (storedUserId) {
 			setUserId(storedUserId);
 			setIsLoggedIn(true);
 		} else {
-			setIsLoggedIn(false); // Set isLoggedIn to false if there is no storedUserId
+			setIsLoggedIn(false);
 		}
-	}, []); // Empty dependency array, runs only once on component mount
+	}, [isLoggedIn]);
 
 	function logout() {
-		Cookies.remove('userId');
+		//Cookies.remove('userId');
 		setIsLoggedIn(false);
 		axios.get('http://localhost:3099/api/user/logout').then(res => {
 			setMsg(res.data.msg);
