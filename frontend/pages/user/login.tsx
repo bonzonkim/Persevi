@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import router from 'next/router';
 
 function Login() {
 	const [msg, setMsg] = useState('');
@@ -9,16 +9,31 @@ function Login() {
 		pwd: ''
 	});
 
+	// async function onSubmit(e: FormEvent<HTMLFormElement>) {
+	// 	e.preventDefault();
+	//
+	// 	const formData = e.currentTarget;
+	// 	console.log(formData);
+	//
+	// 	axios
+	// 		.post('/api/login', formData)
+	// 		.then(res => {
+	// 			console.log(res);
+	// 		})
+	// 		.catch(error => {
+	// 			console.log(error);
+	// 		});
+	// }
+
 	function onSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		axios
 			.post('http://localhost:3099/api/user/login', formData, { withCredentials: true })
 			.then(res => {
 				if (res.data.uid) {
-					Cookies.set('userId', res.data.uid);
-					window.location.href = '/';
+					router.push('/').then(r => console.log(r));
 				} else {
-					window.location.reload();
+					router.reload();
 				}
 
 				if (res.data.msg !== '') {

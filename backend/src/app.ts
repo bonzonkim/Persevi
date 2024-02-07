@@ -3,7 +3,7 @@ import cors from 'cors';
 import userRouter from './routes/userRouter';
 import adminRouter from './routes/adminRouter';
 import productRouter from './routes/productRouter';
-import CookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 const PORT = 3099;
@@ -11,7 +11,7 @@ const PORT = 3099;
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(CookieParser());
+app.use(cookieParser());
 app.use('/api/user', userRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/product', productRouter);
