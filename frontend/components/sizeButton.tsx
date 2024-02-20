@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 interface ISizeButtonProps {
 	id: string;
 	size: string;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	dataUpdate: any;
+	dataUpdate: (id: string, isClicked: boolean) => void;
 }
 
 function SizeButton({ id, size, dataUpdate }: ISizeButtonProps) {

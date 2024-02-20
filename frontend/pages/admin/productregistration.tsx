@@ -16,9 +16,9 @@ function productregistration() {
 		prod_size: new Array(),
 		prod_color: '',
 		prod_info: '',
-		prod_img: '',
-		prod_img1: '',
-		prod_img2: '',
+		prod_img: {},
+		prod_img1: {},
+		prod_img2: {},
 		prod_cate: 0,
 		prod_use: 1
 	});
@@ -76,6 +76,15 @@ function productregistration() {
 		setFormData({ ...formData, ['prod_size']: sizes });
 	}
 
+	function imgDataUpdate(images: FileList) {
+		setFormData({ ...formData, [`prod_img`]: images[0] });
+
+		// newImages.forEach((image, index) => {
+		// 	if (index === 0) setFormData({ ...formData, [`prod_img`]: image });
+		// 	else setFormData({ ...formData, [`prod_img${index}`]: image });
+		// });
+	}
+
 	//sizes Array에서 특정 값 제거하는 function
 	function sizesValueRemove(sizes: string[], value: string) {
 		for (let i = 0; i < sizes.length; i++) {
@@ -91,6 +100,8 @@ function productregistration() {
 			alert(msg);
 		}
 	}, [msg]);
+
+	console.log(formData);
 
 	return (
 		<form onSubmit={onSubmit} style={{ padding: '0 10% 0 10%' }}>
@@ -223,10 +234,10 @@ function productregistration() {
 						<label htmlFor="img" className="block text-sm font-medium leading-6 text-white">
 							제품 사진
 						</label>
-						<FileUploader />
+						<FileUploader imgUpdate={imgDataUpdate} />
 					</div>
 					<div className="col-span-full mt-2 flex justify-end">
-						<button className="p-2 rounded-md mb-4 bg-persevi-blue w-20 text-white" type="submit">
+						<button className="p-2 rounded-md mb-4 bg-persevi-blue w-20 text-white hover:text-gray-500" type="submit">
 							등 록
 						</button>
 					</div>

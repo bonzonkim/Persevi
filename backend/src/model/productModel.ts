@@ -7,8 +7,8 @@ export interface ProductInterface {
 	prod_color: string;
 	prod_info: string;
 	prod_img: Blob;
-	prod_img1: Blob;
-	prod_img2: Blob;
+	prod_img1: null;
+	prod_img2: null;
 	prod_cate: number;
 	prod_use: number;
 }
